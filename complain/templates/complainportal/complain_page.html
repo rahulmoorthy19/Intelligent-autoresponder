@@ -1,0 +1,25 @@
+<html>
+    <head>
+        <title>COMPLAIN PORTAL</title>
+        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+	<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+    </head>
+    <body>
+         <form action="" method="POST">
+		{% csrf_token %}
+  		Name:<br>
+ 	  	 <input type="text" name="name" required><br>
+  		Email id:<br>
+ 		 <input type="email" name="emailid" required><br>
+		Mobile number:<br>
+ 		 <input type="tel" name="mobilenumber" required><br>
+		Type of query:<br>
+ 		<input type="radio" name="query_type" value="Hardware" checked> Hardware<br>
+  		<input type="radio" name="query_type" value="Software"> Software<br>
+		Query:<br>
+		<textarea name="query_que" cols="40" rows="5" required></textarea><br><br>
+		<input type="submit" value="Submit">
+	</form> 
+    </body>
+</html>
+
