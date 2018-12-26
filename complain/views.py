@@ -29,7 +29,7 @@ def complain_page(request):
 		question.save()
 		subject=request.POST.get('query_type')+" Problem"
 		query_question=request.POST.get('query_que')
-		#email(request,subject,query_question)
+		email(request,subject,query_question)
 		return HttpResponseRedirect('thankyou_page/')  
 	else:
 		return render(request, 'complainportal/complain_page.html')
@@ -55,16 +55,17 @@ def thankyou_page(request):
 	else:
 		answer_queries=query.objects.filter(answered_flag=1,sys_conf=question.sys_conf,query_type=question.query_type)
 		for z in answer_queries:
-			if z.query_ques==question:
+			if z.query_ques==question.query_ques:
 				team_assign=team.objects.filter(team_type=question.query_type)
 				for w in team_assign:
 					team_name[w.team_id]=w.workload	
 					team_list[w.team_id]=w.team_name
-				z.team_assigned_id=min(team_name.items(), key=operator.itemgetter(1))[0]
+				z.team_assigned_id_id=min(team_name.items(), key=operator.itemgetter(1))[0]
 				z.save()
-				team_assign=team.objects.get(team_type=z.team_assigned_id)
-				team_assign.workload=team_assign.workload+1
-				team_assign.save()
+				team_assign=team.objects.filter(team_type=z.team_assigned_id_id)
+				for m in team_assign:
+					m.workload=m.workload+1
+					m.save()
 	return render(request, 'complainportal/thankyou_page.html')
 
 						

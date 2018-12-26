@@ -103,7 +103,7 @@ def predict(mail,complain_1,service_1):
 	service=jaccard_similarity(service_tfidf,mail1_tfidf)
 	if complain>service:
 		return 1
-	elif complain<service:
+	else:
 		return 0
 		
 
