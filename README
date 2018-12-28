@@ -1,0 +1,15 @@
+This project has been made for the TCS Inframind Hackathon Video Presentation Round
+
+It has the Following Features
+
+1.It takes in query from the user complain portal
+
+2.If the query is present in the knowledge base then it sends the answer to the query back
+
+3.If it is not present in the knowledge base then it sends the name of the team assigned and the number of days
+
+4.It also supports any type of language
+
+5.XgBoost based regression technique has been used for finding the number of days
+
+6.NLP based technique used to assign complain and service tokens to users querying the portal 
