@@ -1,23 +1,144 @@
-<html>
-    <head>
-        <title>COMPLAIN PORTAL</title>
-    </head>
-    <body>
-         <form action="" method="POST">
-		{% csrf_token %}
-  		Name:<br>
- 	  	 <input type="text" name="name" required><br>
-  		Email id:<br>
- 		 <input type="email" name="emailid" required><br>
-		Mobile number:<br>
- 		 <input type="tel" name="mobilenumber" required><br>
-		Type of query:<br>
- 		<input type="radio" name="query_type" value="Hardware" checked> Hardware<br>
-  		<input type="radio" name="query_type" value="Software"> Software<br>
-		Query:<br>
-		<textarea name="query_que" cols="40" rows="5" required></textarea><br><br>
-		<input type="submit" value="Submit">
-	</form> 
-    </body>
-</html>
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>Skyscraper Portal</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+<!--===============================================================================================-->
+	<link rel="icon" type="image/png" href="/static/complain_page/images/icons/favicon_ico.png"/>
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="/static/complain_page/vendor/bootstrap/css/bootstrap.min.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="/static/complain_page/fonts/font-awesome-4.7.0/css/font-awesome.min.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="/static/complain_page/fonts/Linearicons-Free-v1.0.0/icon-font.min.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="/static/complain_page/vendor/animate/animate.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="/static/complain_page/vendor/css-hamburgers/hamburgers.min.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="/static/complain_page/vendor/animsition/css/animsition.min.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="/static/complain_page/vendor/select2/select2.min.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="/static/complain_page/vendor/daterangepicker/daterangepicker.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="/static/complain_page/css/util.css">
+	<link rel="stylesheet" type="text/css" href="/static/complain_page/css/main.css">
+<!--===============================================================================================-->
+</head>
+<body>
+
+
+	<div class="container-contact100">
+		<div class="wrap-contact100">
+			<form action="" method="POST" class="contact100-form validate-form" >
+					{% csrf_token %} 
+				<span class="contact100-form-title">
+					Send Us Your Query
+				</span>
+
+
+				<div class="wrap-input100 validate-input" data-validate="Name is required">
+					<label class="label-input100" for="name">Full name</label>
+					<input id="name" class="input100" type="text" name="name" placeholder="Enter your name...">
+					<span class="focus-input100"></span>
+				</div>
+
+
+				<div class="wrap-input100 validate-input" data-validate = "Valid email is required: ex@abc.xyz">
+					<label class="label-input100" for="email">Email Address</label>
+					<input id="email" class="input100" type="text" name="emailid" placeholder="Enter your email...">
+					<span class="focus-input100"></span>
+				</div>
+
+				<div class="wrap-input100 validate-input" data-validate = "Valid Phone number is required: 8805979825">
+					<label class="label-input100" for="phonenumber">Mobile Number</label>
+					<input id="tel" class="input100" type="text" name="mobilenumber" placeholder="Enter your mobile number...">
+					<span class="focus-input100"></span>
+				</div>
+
+				<div class="wrap-input100">
+					<div class="label-input100">What do you need?</div>
+					<div>
+						<select class="js-select2" name="query_type">
+							<option>Hardware</option>
+							<option>Software</option>
+						</select>
+						<div class="dropDownSelect2"></div>
+					</div>
+					<span class="focus-input100"></span>
+				</div>
+
+				<div class="wrap-input100 validate-input" data-validate = "Message is required">
+					<label class="label-input100" for="message">Message</label>
+					<textarea id="message" class="input100" name="query_que" placeholder="Type your message here..."></textarea>
+					<span class="focus-input100"></span>
+				</div>
+
+				<div class="container-contact100-form-btn">
+					<button class="contact100-form-btn">
+						Send
+					</button>
+				</div>
+
+				
+			</form>
+
+			<div class="contact100-more flex-col-c-m" style="background-image: url('/static/complain_page/images/bg-01.jpg');">
+			</div>
+		</div>
+	</div>
+
+
+
+
+
+<!--===============================================================================================-->
+	<script src="/static/complain_page/vendor/jquery/jquery-3.2.1.min.js"></script>
+<!--===============================================================================================-->
+	<script src="/static/complain_page/vendor/animsition/js/animsition.min.js"></script>
+<!--===============================================================================================-->
+	<script src="/static/complain_page/vendor/bootstrap/js/popper.js"></script>
+	<script src="/static/complain_page/vendor/bootstrap/js/bootstrap.min.js"></script>
+<!--===============================================================================================-->
+	<script src="/static/complain_page/vendor/select2/select2.min.js"></script>
+	<script>
+		$(".js-select2").each(function(){
+			$(this).select2({
+				minimumResultsForSearch: 20,
+				dropdownParent: $(this).next('.dropDownSelect2')
+			});
+		})
+		$(".js-select2").each(function(){
+			$(this).on('select2:open', function (e){
+				$(this).parent().next().addClass('eff-focus-selection');
+			});
+		});
+		$(".js-select2").each(function(){
+			$(this).on('select2:close', function (e){
+				$(this).parent().next().removeClass('eff-focus-selection');
+			});
+		});
+
+	</script>
+<!--===============================================================================================-->
+	<script src="/static/complain_page/vendor/daterangepicker/moment.min.js"></script>
+	<script src="/static/complain_page/vendor/daterangepicker/daterangepicker.js"></script>
+<!--===============================================================================================-->
+	<script src="/static/complain_page/vendor/countdowntime/countdowntime.js"></script>
+<!--===============================================================================================-->
+	<script src="/static/complain_page/js/main.js"></script>
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-23581568-13"></script>
+	<script>
+	  window.dataLayer = window.dataLayer || [];
+	  function gtag(){dataLayer.push(arguments);}
+	  gtag('js', new Date());
+
+	  gtag('config', 'UA-23581568-13');
+	</script>
+
+</body>
+</html>

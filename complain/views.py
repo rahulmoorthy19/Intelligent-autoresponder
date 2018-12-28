@@ -54,16 +54,18 @@ def thankyou_page(request):
 		ref_query=query.objects.get(query_id=id_of_answer)
 		for y in answer_queries:
 			if y.query_ques==question.query_ques:
+				lang=y.language
 				y.answer=ref_query.answer
 				y.answered_flag=0
 				reply="The answer to your query id "+str(y.query_id)+" is "+ref_query.answer
 				subject="Solution of query id "+str(y.query_id)
-				revert(request,subject,reply)
+				revert(request,mtranslate.translate(subject,lang,"auto"),mtranslate.translate(reply,lang,"auto"))
 				y.save()
 	else:
 		answer_queries=query.objects.filter(answered_flag=1,sys_conf=question.sys_conf,query_type=question.query_type)
 		for z in answer_queries:
 			if z.query_ques==question.query_ques:
+				lang=z.language
 				team_assign=team.objects.filter(team_type=question.query_type)
 				for w in team_assign:
 					team_name[w.team_id]=w.workload	
@@ -76,7 +78,7 @@ def thankyou_page(request):
 					no_days=predict3(list([str(question.query_ques),int(m.team_type),int(m.workload)]))
 					reply="Your query id "+str(id_of_ques)+" has been assigned to team "+m.team_name+" and will be solved in"+str(no_days)
 					subject="Query Solving process undergoing for query id "+str(id_of_ques)
-					revert(request,subject,reply)
+					revert(request,mtranslate.translate(subject,lang,"auto"),mtranslate.translate(reply,lang,"auto"))
 					m.workload=m.workload+1
 					m.save()
 	return render(request, 'complainportal/thankyou_page.html')
