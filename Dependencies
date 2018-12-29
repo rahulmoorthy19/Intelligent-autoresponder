@@ -1,0 +1,8 @@
+1. Python 3.6.3
+2. Anaconda 
+3. Jupyter Notebook
+4. Django
+5. mtranslate -  pip install mtranslate
+6. langdetect -  pip install langdetect
+7. XgBoost
+8.SQLServer
