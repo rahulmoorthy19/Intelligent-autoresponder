@@ -31,7 +31,7 @@ def complain_page(request):					##This View is used to take the Query From the U
 		else:
 			question.sys_conf=0
 		question.language=detect(request.POST.get('query_que'))
-		question.query_type=predict(request.POST.get('query_que'),complain_path,service_path) #detecting complain or service
+		question.query_type=predict(question.query_ques,complain_path,service_path) #detecting complain or service
 		spam_check=spam_predict(question.query_ques)	##This function is used to detect is the query is spam or not
 		if spam_check==0:
 			question.save()
@@ -47,14 +47,13 @@ def complain_page(request):					##This View is used to take the Query From the U
 
 def thankyou_page(request):#This view is used for sending the reply in desired language depending upon question present in KB
 	similarity={}
-	queries=query.objects.filter(answered_flag=0,sys_conf=question.sys_conf,query_type=question.query_type)
+	queries=query.objects.filter(answered_flag=0)
 	for x in queries:
 		similarity[x.query_id]=predict1(question.query_ques,x.query_ques)
-	if bool(similarity):
-		id_of_answer=max(similarity.items(), key=operator.itemgetter(1))[0]
-		similarity_of_answer=similarity[id_of_answer]
-	else:
-		similarity_of_answer=0
+	id_of_answer=max(similarity.items(), key=operator.itemgetter(1))[0]
+	print(id_of_answer)
+	similarity_of_answer=similarity[id_of_answer]
+	print(similarity_of_answer)
 	if similarity_of_answer>80:
 		similarity_present(id_of_answer,request)
 	else:
@@ -64,13 +63,28 @@ def thankyou_page(request):#This view is used for sending the reply in desired l
 						
 def email(request,subject,query_question): #Used for sending email from Customer to Service Desk
 
-	email_from = settings.EMAIL_HOST_USER
-	recipient_list = ['rahulmoorthy9.6@gmail.com']
-	send_mail( subject, query_question, email_from, recipient_list )
-	return render(request,'complainportal/complain_page.html')
+	email_host = 'smtp.gmail.com'
+	host_port = 587
+	email_username = 'lightshah12@gmail.com'
+	email_password = 'naitik12'
+	email_use_tls = True
+	connection = get_connection(host=email_host, 
+                            port=host_port, 
+                            username=email_username, 
+                            password=email_password, 
+                            use_tls=email_use_tls)
+	send_mail(subject, query_question,email_username, ['jaysid91@gmail.com'], connection=connection)
+	connection.close()
+	return render(request,'complainportal/complain_page.html')	
 
 
-def revert(request,subject,reply): #Used for Replying back from Service desk to Customer 
+#	email_from = settings.EMAIL_HOST_USER
+#	recipient_list = ['jaysid91@gmail.com']
+#	send_mail( subject, query_question, email_from, recipient_list )
+#	return render(request,'complainportal/complain_page.html')
+
+
+def revert(request,subject,reply,email_id): #Used for Replying back from Service desk to team 
 	
 	email_host = 'smtp.gmail.com'
 	host_port = 587
@@ -82,7 +96,7 @@ def revert(request,subject,reply): #Used for Replying back from Service desk to 
                             username=email_username, 
                             password=email_password, 
                             use_tls=email_use_tls)
-	send_mail(subject, reply, 'jaysid91@gmail.com', ['rahulmoorthy9.6@gmail.com'], connection=connection)
+	send_mail(subject, reply,email_username, [email_id], connection=connection)
 	connection.close()
 	return render(request,'complainportal/complain_page.html')
 
@@ -97,11 +111,12 @@ def similarity_present(id_of_answer,request):# Used when question present in KB
 			y.answered_flag=0
 			reply="The answer to your query id "+str(y.query_id)+" is "+ref_query.answer
 			subject="Solution of query id "+str(y.query_id)
-			revert(request,mtranslate.translate(subject,lang,"auto"),mtranslate.translate(reply,lang,"auto"))
+			revert(request,mtranslate.translate(subject,lang,"auto"),mtranslate.translate(reply,lang,"auto"),y.email_id)
 			y.save()
 
 
 def similarity_notpresent(request): #Used when question not present in KB
+	sys=""
 	team_name={}
 	team_list={}
 	answer_queries=query.objects.filter(answered_flag=1,sys_conf=question.sys_conf,query_type=question.query_type)
@@ -120,7 +135,12 @@ def similarity_notpresent(request): #Used when question not present in KB
 				no_days=predict3(list([str(question.query_ques),int(m.team_type),int(m.workload)]))#no of days
 				reply="Your query id "+str(id_of_ques)+" has been assigned to team "+m.team_name+" and will be solved in "+str(no_days)+" days"
 				subject="Query Solving process undergoing for query id "+str(id_of_ques)
-				revert(request,mtranslate.translate(subject,lang,"auto"),mtranslate.translate(reply,lang,"auto"))
+				if question.sys_conf==1:
+					sys=sys+"Hardware"
+				else:
+					sys=sys+"Software"
+				revert(request,sys,mtranslate.translate(question.query_ques),m.team_email_id)
+				revert(request,mtranslate.translate(subject,lang,"auto"),mtranslate.translate(reply,lang,"auto"),complain.email_id)
 				m.workload=m.workload+1
 				m.save()
 	

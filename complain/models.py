@@ -20,9 +20,9 @@ class query(models.Model):
 	email_id=models.EmailField(max_length=75)		##email id of the user
 	query_ques=models.TextField()						##query of the user
 	answer=models.TextField(blank=True)					##Answer to the query of the user(null allowed)
-	query_type=models.IntegerField(default=0)	##Type of query of the user(Service or complain)(0 or 1)
-	sys_conf=models.IntegerField(default=1)		##Type of query of the user(Software or hardware)(0 or 1)
-	team_assigned_id=models.ForeignKey(team,on_delete=models.CASCADE,default=1) ##team id query is assigned(1 for auto)	
+	query_type=models.IntegerField()	##Type of query of the user(Service or complain)(0 or 1)
+	sys_conf=models.IntegerField()		##Type of query of the user(Software or hardware)(0 or 1)
+	team_assigned_id=models.ForeignKey(team,on_delete=models.CASCADE,default=5) ##team id query is assigned(1 for auto)	
 	answered_flag=models.IntegerField(default=1)	##Flag for seeing if the query is answered or unaswered(0 or 1)
 	language=models.CharField(max_length=2,default="en")
 	

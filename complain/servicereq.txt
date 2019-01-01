@@ -18,5 +18,7 @@ How long will it take to service my device?
 What if I am not using ISD services?
 What kind of services are provided for the product under warranty?
 I lost my printer installation disk, how can I install my printer?
-
-
+What is the process involved in getting TeamSupport embedded in my organization?
+How long does it take to log a quick call, for example a 'password reset'?
+How do I enter my payment information before my free trial ends?
+What happens to my data if my computer crashes or I lose my phone or tablet?
